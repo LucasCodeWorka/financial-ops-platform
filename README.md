@@ -1,24 +1,20 @@
 # 💰 Financial Ops Platform
 
+![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=flat&logo=nextdotjs&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![Recharts](https://img.shields.io/badge/Recharts-FF6384?style=flat&logo=chart.js&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=flat&logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+
 A complete financial intelligence platform — cash flow analysis, income statement (P&L), banking analytics, and financial cycle diagnostics.
 
 Built to turn raw ERP transaction data into actionable financial visibility — with sub-second response on 2,200+ records across 12 periods.
 
 > ⚠️ This repository contains documentation and sanitized code samples only.  
 > The production system runs on private infrastructure connected to a live ERP database.
-
----
-
-## 📸 Screenshots
-
-### Cash Flow Dashboard (DFC)
-![Cash Flow Dashboard](screenshots/dfc-dashboard.png)
-
-### Receipts & Payments Chart
-![Receipts and Payments](screenshots/receipts-payments-chart.png)
-
-### Hierarchical Cash Flow Table
-![Hierarchical Table](screenshots/hierarchical-table.png)
 
 ---
 
@@ -44,6 +40,21 @@ ERP Database (PostgreSQL)
                                                              Next.js Dashboard
                                                       (Charts · Hierarchy · Filters)
 ```
+
+---
+
+## ✨ Key Features
+
+| Feature | Detail |
+|---|---|
+| 📊 4-level hierarchical table | Activities → Groups → Categories → Individual Entries |
+| 💹 Financial cycle analytics | Automatic PMR · PMP · CCE calculation with health status |
+| ⚡ 10–150x performance gain | Materialized views replacing slow PostgreSQL views |
+| 🔄 Zero-downtime refresh | `CONCURRENTLY` strategy with daily cron scheduling |
+| 📈 6-month area chart | Stacked series: Receipts · Payments · Final Balance |
+| 🎯 Smart filters | Period · date type (issue / due / settlement) · real-time |
+| 🖱️ Dual synchronized scroll | Top bar + table body always in sync |
+| 🎨 Conditional formatting | Green/red coloring · sticky columns · collapsible rows |
 
 ---
 
@@ -182,8 +193,6 @@ function buildHierarchy(entries: Entry[]): HierarchyNode[] {
 
 ### 4. Dual Synchronized Scroll
 
-One of the UX challenges: a wide table with fixed columns and two scrollbars (top + table) that stay in sync.
-
 ```typescript
 // Synchronized horizontal scroll — top bar + table body
 const handleScroll = (source: 'top' | 'table') => (e: React.UIEvent) => {
@@ -220,7 +229,7 @@ GET  /api/recebimentos-futuros         # Upcoming receivables
 | `tipoData` | string | `emissao` · `vencimento` · `baixa` |
 | `agrupamento` | string | `diario` · `mensal` |
 
-**Example response structure:**
+**Example response:**
 ```json
 {
   "periodos": [{ "key": "2025-01-01", "label": "Jan/25" }],
@@ -228,12 +237,12 @@ GET  /api/recebimentos-futuros         # Upcoming receivables
     "data": [
       {
         "label": "RECEITAS OPERACIONAIS",
-        "total": 7044521.21,
-        "periodos": { "2025-01-01": 7044521.21 },
+        "total": 48320000.00,
+        "periodos": { "2025-01-01": 3520000.00 },
         "children": [...]
       }
     ],
-    "totais": { "total": 73815846.80 }
+    "totais": { "total": 48320000.00 }
   },
   "cicloFinanceiro": {
     "pmr": 51.8,
@@ -274,5 +283,5 @@ GET  /api/recebimentos-futuros         # Upcoming receivables
 ## 🔐 Notes
 
 - All credentials managed via environment variables — never committed
-- Custom PostgreSQL functions (`f_dic_pes_nome`, `f_dic_sld_prd_produto`) abstracted in service layer
+- Custom PostgreSQL functions abstracted in service layer
 - Production financial data and company-specific identifiers removed from this public version
